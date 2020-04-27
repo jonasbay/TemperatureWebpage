@@ -20,6 +20,20 @@ namespace TemperatureWebpage.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<WeatherObservation>()
+            //    .HasOne<Location>(l => l.Location)
+            //    .WithMany(p => p.WeatherObservations)
+            //    .HasForeignKey(l => l.LocationRefName);
+
+
+            modelBuilder.Entity<Location>()
+                .HasData(new Location { LocationId = 1, LocationName = "USA", GPSLatitude = 2020, GPSLongitude = 10505 });
+
+            modelBuilder.Entity<WeatherObservation>().HasData(
+                new WeatherObservation{ WeatherObservationId = 1, TimeOfDay = DateTime.Now, Temperature = 20, AirPressure = 30, AirHumidity = 40, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 2, TimeOfDay = DateTime.Now, Temperature = 55, AirPressure = 0, AirHumidity = 1000, LocationRefId = 1 });
+
         }
     }
 }
