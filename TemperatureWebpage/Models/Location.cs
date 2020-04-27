@@ -8,9 +8,13 @@ namespace TemperatureWebpage.Models
 {
     public class Location
     {
-        [Key] public string LocationName { get; set; }
+        [Key] 
+        public string LocationName { get; set; }
+        
         public double GPSLatitude { get; set; }
+        
         public double GPSLongitude { get; set; }
+        
         public List<WeatherObservation> WeatherObservations { get; set; }
     }
 }
