@@ -24,15 +24,23 @@
     <Compile Include="Migrations\20200427133530_newF.Designer.cs" />
     <Compile Include="Migrations\20200427135048_new.cs" />
     <Compile Include="Migrations\20200427135048_new.Designer.cs" />
+    <Compile Include="Migrations\20200504114420_Alexander.cs" />
+    <Compile Include="Migrations\20200504114420_Alexander.Designer.cs" />
+    <Compile Include="Migrations\20200504121102_Trying_new_fix.cs" />
+    <Compile Include="Migrations\20200504121102_Trying_new_fix.Designer.cs" />
+    <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.cs" />
+    <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.Designer.cs" />
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">

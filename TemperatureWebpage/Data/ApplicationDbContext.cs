@@ -26,14 +26,14 @@ namespace TemperatureWebpage.Data
             //    .WithMany(p => p.WeatherObservations)
             //    .HasForeignKey(l => l.LocationRefName);
 
-
             modelBuilder.Entity<Location>()
                 .HasData(new Location { LocationId = 1, LocationName = "USA", GPSLatitude = 2020, GPSLongitude = 10505 });
 
             modelBuilder.Entity<WeatherObservation>().HasData(
-                new WeatherObservation{ WeatherObservationId = 1, TimeOfDay = DateTime.Now, Temperature = 20, AirPressure = 30, AirHumidity = 40, LocationRefId = 1 },
-                new WeatherObservation { WeatherObservationId = 2, TimeOfDay = DateTime.Now, Temperature = 55, AirPressure = 0, AirHumidity = 1000, LocationRefId = 1 });
-
+                new WeatherObservation{ WeatherObservationId = 1, TimeOfDay = DateTime.Now, Temperature = 20, AirPressure = 30, AirHumidity = 20, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 2, TimeOfDay = DateTime.Now, Temperature = 40, AirPressure = 40, AirHumidity = 40, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 3, TimeOfDay = DateTime.Now, Temperature = 23, AirPressure = 30, AirHumidity = 30, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 4, TimeOfDay = DateTime.Now, Temperature = 55, AirPressure = 12, AirHumidity = 1000, LocationRefId = 1 });
         }
     }
 }
