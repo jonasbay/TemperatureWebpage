@@ -13,10 +13,7 @@ namespace TemperatureWebpage.Models
         public double Temperature { get; set; }
         public double AirPressure { get; set; }
         public double AirHumidity { get; set; }
-
-        [ForeignKey("Location")]
-        public int LocationRefId { get; set; }
-
-        public Location Location { get; set; }
+        [ForeignKey("Location")] public int LocationRefId { get; set; }
+        public virtual Location Location { get; set; }
     }
 }
