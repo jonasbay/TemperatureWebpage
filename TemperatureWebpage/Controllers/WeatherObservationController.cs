@@ -22,10 +22,34 @@ namespace TemperatureWebpage.Controllers
         }
 
         // GET: api/weatherobservation
+        //[HttpGet]
+        //public async Task<ActionResult<IEnumerable<Location>>> GetWeatherObservation()
+        //{
+        //    return await _context.Locations.ToListAsync();
+        //}
+
+        //Get three latest
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetWeatherObservation()
+        public IEnumerable<WeatherObservation> GetThree()
         {
-            return await _context.Locations.ToListAsync();
+            var WeatherObs1 = _context.WeatherObservations.OrderByDescending(wo => wo.TimeOfDay).Take(3);
+
+            var WeatherObs = from wo in _context.WeatherObservations
+                              select new WeatherObservation
+                              {
+                                  Temperature = wo.Temperature,
+                                  AirPressure = wo.AirPressure,
+                                  AirHumidity = wo.AirHumidity,
+                                  TimeOfDay = wo.TimeOfDay,
+                                  WeatherObservationId = wo.WeatherObservationId,
+                                  LocationName = wo.Location.LocationName
+                              };
+            return WeatherObs.Take(3);
         }
+
+        //Løsningsforslag fra Daniella til Datosortering
+        //return _service.Get()
+        //        .Where(wo => (wo.TimeStamp.Date.CompareTo(id.Date) == 0))
+        //        .ToList();
     }
 }

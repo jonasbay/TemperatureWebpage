@@ -30,6 +30,8 @@
     <Compile Include="Migrations\20200504121102_Trying_new_fix.Designer.cs" />
     <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.cs" />
     <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.Designer.cs" />
+    <Compile Include="Migrations\20200504133347_Added_locationName_to_WeatherObs.cs" />
+    <Compile Include="Migrations\20200504133347_Added_locationName_to_WeatherObs.Designer.cs" />
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
   </ItemGroup>
 
