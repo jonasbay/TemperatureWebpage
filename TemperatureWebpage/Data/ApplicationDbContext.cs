@@ -32,7 +32,9 @@ namespace TemperatureWebpage.Data
 
             modelBuilder.Entity<WeatherObservation>().HasData(
                 new WeatherObservation{ WeatherObservationId = 1, TimeOfDay = DateTime.Now, Temperature = 20, AirPressure = 30, AirHumidity = 40, LocationRefId = 1 },
-                new WeatherObservation { WeatherObservationId = 2, TimeOfDay = DateTime.Now, Temperature = 55, AirPressure = 0, AirHumidity = 1000, LocationRefId = 1 });
+                new WeatherObservation { WeatherObservationId = 2, TimeOfDay = DateTime.Now, Temperature = 55, AirPressure = 0, AirHumidity = 1000, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 3, TimeOfDay = DateTime.Now, Temperature = 20, AirPressure = 30, AirHumidity = 40, LocationRefId = 1 },
+                new WeatherObservation { WeatherObservationId = 4, TimeOfDay = DateTime.Now, Temperature = 255, AirPressure = 0, AirHumidity = 100, LocationRefId = 1 });
 
         }
     }
