@@ -15,6 +15,6 @@ namespace TemperatureWebpage.Models
         [MaxLength(64)]
         public string Name { get; set; }
         [MaxLength(60)]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
     }
 }
