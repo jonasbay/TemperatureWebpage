@@ -8,6 +8,7 @@ namespace TemperatureWebpage.Models
 {
     public class Location
     {
+        [Key]
         public int LocationId { get; set; }
 
         public string LocationName { get; set; }
@@ -16,6 +17,6 @@ namespace TemperatureWebpage.Models
         
         public double GPSLongitude { get; set; }
         
-        public List<WeatherObservation> WeatherObservations { get; set; }
+        public virtual ICollection<WeatherObservation> WeatherObservations { get; set; }
     }
 }

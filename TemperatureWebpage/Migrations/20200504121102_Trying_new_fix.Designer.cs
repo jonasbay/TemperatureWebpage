@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TemperatureWebpage.Data;
 
 namespace TemperatureWebpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200504121102_Trying_new_fix")]
+    partial class Trying_new_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,9 +64,6 @@ namespace TemperatureWebpage.Migrations
                     b.Property<double>("AirPressure")
                         .HasColumnType("float");
 
-                    b.Property<string>("LocationName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("LocationRefId")
                         .HasColumnType("int");
 
@@ -84,38 +83,20 @@ namespace TemperatureWebpage.Migrations
                         new
                         {
                             WeatherObservationId = 1,
-                            AirHumidity = 20.0,
+                            AirHumidity = 40.0,
                             AirPressure = 30.0,
                             LocationRefId = 1,
                             Temperature = 20.0,
-                            TimeOfDay = new DateTime(2020, 5, 6, 12, 0, 0, 0, DateTimeKind.Unspecified)
+                            TimeOfDay = new DateTime(2020, 5, 4, 14, 11, 2, 213, DateTimeKind.Local).AddTicks(2666)
                         },
                         new
                         {
                             WeatherObservationId = 2,
-                            AirHumidity = 40.0,
-                            AirPressure = 40.0,
-                            LocationRefId = 1,
-                            Temperature = 40.0,
-                            TimeOfDay = new DateTime(2019, 4, 6, 15, 15, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            WeatherObservationId = 3,
-                            AirHumidity = 30.0,
-                            AirPressure = 30.0,
-                            LocationRefId = 1,
-                            Temperature = 23.0,
-                            TimeOfDay = new DateTime(2020, 4, 20, 9, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            WeatherObservationId = 4,
                             AirHumidity = 1000.0,
-                            AirPressure = 12.0,
+                            AirPressure = 0.0,
                             LocationRefId = 1,
                             Temperature = 55.0,
-                            TimeOfDay = new DateTime(2020, 5, 10, 20, 30, 0, 0, DateTimeKind.Unspecified)
+                            TimeOfDay = new DateTime(2020, 5, 4, 14, 11, 2, 216, DateTimeKind.Local).AddTicks(2728)
                         });
                 });
 

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TemperatureWebpage.Data;
 
 namespace TemperatureWebpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200511120401_updatedata")]
+    partial class updatedata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,7 +99,7 @@ namespace TemperatureWebpage.Migrations
                             AirPressure = 40.0,
                             LocationRefId = 1,
                             Temperature = 40.0,
-                            TimeOfDay = new DateTime(2019, 4, 6, 15, 15, 0, 0, DateTimeKind.Unspecified)
+                            TimeOfDay = new DateTime(2020, 5, 11, 14, 4, 0, 535, DateTimeKind.Local).AddTicks(3078)
                         },
                         new
                         {
@@ -106,7 +108,7 @@ namespace TemperatureWebpage.Migrations
                             AirPressure = 30.0,
                             LocationRefId = 1,
                             Temperature = 23.0,
-                            TimeOfDay = new DateTime(2020, 4, 20, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                            TimeOfDay = new DateTime(2020, 5, 11, 14, 4, 0, 538, DateTimeKind.Local).AddTicks(7721)
                         },
                         new
                         {
@@ -115,7 +117,7 @@ namespace TemperatureWebpage.Migrations
                             AirPressure = 12.0,
                             LocationRefId = 1,
                             Temperature = 55.0,
-                            TimeOfDay = new DateTime(2020, 5, 10, 20, 30, 0, 0, DateTimeKind.Unspecified)
+                            TimeOfDay = new DateTime(2020, 5, 11, 14, 4, 0, 538, DateTimeKind.Local).AddTicks(7769)
                         });
                 });
 
