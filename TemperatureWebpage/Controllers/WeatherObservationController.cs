@@ -23,9 +23,9 @@ namespace TemperatureWebpage.Controllers
 
         // GET: api/weatherobservation
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Location>>> GetWeatherObservation()
+        public async Task<ActionResult<IEnumerable<WeatherObservation>>> GetWeatherObservation()
         {
-            return await _context.Locations.ToListAsync();
+            return await _context.WeatherObservations.ToListAsync();
         }
     }
 }
