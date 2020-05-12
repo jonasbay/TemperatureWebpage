@@ -10,8 +10,8 @@ using TemperatureWebpage.Data;
 namespace TemperatureWebpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200511120547_updatedata2")]
-    partial class updatedata2
+    [Migration("20200512184440_editDatabase")]
+    partial class editDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,46 @@ namespace TemperatureWebpage.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TemperatureWebpage.Models.DTOUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(254)")
+                        .HasMaxLength(254);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DTOUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "default@gamil.com",
+                            Name = "Default",
+                            PasswordHash = "$2a$11$m9TE4XcAEdDaC/Hu0IRmRu9Ayqikl2YcRFf53Y2SLJTYUZgMzzYYy"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "alex@gamil.com",
+                            Name = "Alex",
+                            PasswordHash = "$2a$11$MPFwsSaIdZeENTE7BGfu6eIubvJ6.9tS7e7TN3P5NfXi.X1oLgGsm"
+                        });
+                });
 
             modelBuilder.Entity("TemperatureWebpage.Models.Location", b =>
                 {

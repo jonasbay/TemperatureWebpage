@@ -10,8 +10,8 @@ using TemperatureWebpage.Data;
 namespace TemperatureWebpage.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200427135048_new")]
-    partial class @new
+    [Migration("20200512191633_editDatabase2")]
+    partial class editDatabase2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,46 @@ namespace TemperatureWebpage.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TemperatureWebpage.Models.DTOUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(254)")
+                        .HasMaxLength(254);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DTOUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "default@gamil.com",
+                            Name = "Default",
+                            PasswordHash = "$2a$11$UjOf6yKman8IL7LTAX86y.bq2nOsLZJhAAnR9KxI2yHnD7EDBC21."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "alex@gamil.com",
+                            Name = "Alex",
+                            PasswordHash = "$2a$11$TjZEdL0AJNUCPf7kp3vju.09QpMxN9dQMzdHCzT9nHoLS3AqGeFba"
+                        });
+                });
 
             modelBuilder.Entity("TemperatureWebpage.Models.Location", b =>
                 {
@@ -64,6 +104,9 @@ namespace TemperatureWebpage.Migrations
                     b.Property<double>("AirPressure")
                         .HasColumnType("float");
 
+                    b.Property<string>("LocationName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LocationRefId")
                         .HasColumnType("int");
 
@@ -83,20 +126,38 @@ namespace TemperatureWebpage.Migrations
                         new
                         {
                             WeatherObservationId = 1,
-                            AirHumidity = 40.0,
+                            AirHumidity = 20.0,
                             AirPressure = 30.0,
                             LocationRefId = 1,
                             Temperature = 20.0,
-                            TimeOfDay = new DateTime(2020, 4, 27, 15, 50, 48, 365, DateTimeKind.Local).AddTicks(9466)
+                            TimeOfDay = new DateTime(2020, 5, 6, 12, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             WeatherObservationId = 2,
+                            AirHumidity = 40.0,
+                            AirPressure = 40.0,
+                            LocationRefId = 1,
+                            Temperature = 40.0,
+                            TimeOfDay = new DateTime(2019, 4, 6, 15, 15, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            WeatherObservationId = 3,
+                            AirHumidity = 30.0,
+                            AirPressure = 30.0,
+                            LocationRefId = 1,
+                            Temperature = 23.0,
+                            TimeOfDay = new DateTime(2020, 4, 20, 9, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            WeatherObservationId = 4,
                             AirHumidity = 1000.0,
-                            AirPressure = 0.0,
+                            AirPressure = 12.0,
                             LocationRefId = 1,
                             Temperature = 55.0,
-                            TimeOfDay = new DateTime(2020, 4, 27, 15, 50, 48, 368, DateTimeKind.Local).AddTicks(7118)
+                            TimeOfDay = new DateTime(2020, 5, 10, 20, 30, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 

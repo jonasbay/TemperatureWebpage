@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Crypto.Generators;
 using TemperatureWebpage.Data;
@@ -23,6 +24,7 @@ namespace TemperatureWebpage.Controllers
         //private readonly UserManager<IdentityUser> _userManager;
         //private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        int BCryptWorkFactor = 11;
         public UserController(ApplicationDbContext context/*UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager*/) 
         {
             //_userManager = userManager;
@@ -30,12 +32,54 @@ namespace TemperatureWebpage.Controllers
             _context = context;
         }
 
-        [HttpGet("Register/{id}"), AllowAnonymous]
-        public ActionResult<DTOUser> Get(string userId)
+        [HttpGet("GetUser")]
+        public async Task<ActionResult<DTOUser>> GetUser(int id)
         {
-            var user = new DTOUser() { UserId = userId };
-            return user;
+            var user = _context.DTOUsers.Find(id);
+            return Content($"{user.Email} {user.Id}");
         }
+
+        [HttpPost("Register"), AllowAnonymous]
+        public async Task<ActionResult<DTOToken>> Register(ApplicationUser appUser)
+        {
+            var user = new DTOUser()
+            {
+                Email = appUser.Email.ToLower(),
+                Name = appUser.Name,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(appUser.Password, BCryptWorkFactor)
+            };
+            _context.DTOUsers.Add(user);
+            await _context.SaveChangesAsync();
+
+            var jwtToken = new DTOToken();
+            jwtToken.JWT = GenerateToken(user.Email);
+            return CreatedAtAction("GetUser", new { id = user.Id }, jwtToken);
+        }
+
+       [HttpPost("Login"), AllowAnonymous]
+       public async Task<ActionResult<DTOToken>> Login(Login login)
+       {
+            login.Email = login.Email.ToLower();
+            var user = await _context.DTOUsers.Where(user => user.Email == login.Email).FirstOrDefaultAsync();
+            if (user != null)
+            {
+                var validPwd = BCrypt.Net.BCrypt.Verify(login.Password, user.PasswordHash);
+                if (validPwd)
+                {
+                    return new DTOToken { JWT = GenerateToken(user.Email) };
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Forkert brugernavn eller password!");
+            return BadRequest(ModelState);
+        }
+
+
+        //[HttpGet("Register/{id}"), AllowAnonymous]
+        //public ActionResult<DTOUser> Get(string userId)
+        //{
+        //    var user = new DTOUser() { UserId = userId };
+        //    return user;
+        //}
 
         //Nedenstående kode er taget fra slides "12 Secure Web API"
         //[HttpPost("Register"), AllowAnonymous]
@@ -61,27 +105,6 @@ namespace TemperatureWebpage.Controllers
         //    }
         //    return BadRequest(ModelState);
         //}
-
-        int BCryptWorkFactor = 11;
-
-        [HttpPost("Register"), AllowAnonymous]
-        public async Task<ActionResult<DTOToken>> Register(DTOUser dtoUser)
-        {
-            var user = new ApplicationUser()
-            {
-                Email = dtoUser.Email.ToLower(),
-                UserName = dtoUser.Email,
-                Name = dtoUser.Name,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(dtoUser.Password, BCryptWorkFactor)
-            };
-            _context.ApplicationUsers.Add(user);
-            await _context.SaveChangesAsync();
-
-            var jwtToken = new DTOToken();
-            jwtToken.JWT = GenerateToken(user.Email);
-            return CreatedAtAction("Get", new { id = user.Id }, jwtToken);
-        }
-
         //Generate Token hjælpefunktion
         private string GenerateToken(string username)
         {

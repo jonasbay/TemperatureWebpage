@@ -19,6 +19,46 @@ namespace TemperatureWebpage.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("TemperatureWebpage.Models.DTOUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(254)")
+                        .HasMaxLength(254);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DTOUsers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Email = "default@gamil.com",
+                            Name = "Default",
+                            PasswordHash = "$2a$11$UjOf6yKman8IL7LTAX86y.bq2nOsLZJhAAnR9KxI2yHnD7EDBC21."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Email = "alex@gamil.com",
+                            Name = "Alex",
+                            PasswordHash = "$2a$11$TjZEdL0AJNUCPf7kp3vju.09QpMxN9dQMzdHCzT9nHoLS3AqGeFba"
+                        });
+                });
+
             modelBuilder.Entity("TemperatureWebpage.Models.Location", b =>
                 {
                     b.Property<int>("LocationId")

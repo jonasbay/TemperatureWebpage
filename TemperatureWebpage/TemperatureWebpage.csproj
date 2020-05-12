@@ -5,43 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\**" />
-    <Content Remove="Migrations\**" />
-    <EmbeddedResource Remove="Migrations\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200427124014_test.cs" />
-    <Compile Include="Migrations\20200427124014_test.Designer.cs" />
-    <Compile Include="Migrations\20200427130522_addeddata.cs" />
-    <Compile Include="Migrations\20200427130522_addeddata.Designer.cs" />
-    <Compile Include="Migrations\20200427132129_newData.cs" />
-    <Compile Include="Migrations\20200427132129_newData.Designer.cs" />
-    <Compile Include="Migrations\20200427133208_newForeignKey.cs" />
-    <Compile Include="Migrations\20200427133208_newForeignKey.Designer.cs" />
-    <Compile Include="Migrations\20200427133530_newF.cs" />
-    <Compile Include="Migrations\20200427133530_newF.Designer.cs" />
-    <Compile Include="Migrations\20200427135048_new.cs" />
-    <Compile Include="Migrations\20200427135048_new.Designer.cs" />
-    <Compile Include="Migrations\20200504114420_Alexander.cs" />
-    <Compile Include="Migrations\20200504114420_Alexander.Designer.cs" />
-    <Compile Include="Migrations\20200504121102_Trying_new_fix.cs" />
-    <Compile Include="Migrations\20200504121102_Trying_new_fix.Designer.cs" />
-    <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.cs" />
-    <Compile Include="Migrations\20200504122221_Added_new_Weatherobservations.Designer.cs" />
-    <Compile Include="Migrations\20200504133347_Added_locationName_to_WeatherObs.cs" />
-    <Compile Include="Migrations\20200504133347_Added_locationName_to_WeatherObs.Designer.cs" />
-    <Compile Include="Migrations\20200511120401_updatedata.cs" />
-    <Compile Include="Migrations\20200511120401_updatedata.Designer.cs" />
-    <Compile Include="Migrations\20200511120547_updatedata2.cs" />
-    <Compile Include="Migrations\20200511120547_updatedata2.Designer.cs" />
-    <Compile Include="Migrations\20200511121202_updatedata3.cs" />
-    <Compile Include="Migrations\20200511121202_updatedata3.Designer.cs" />
-    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BCrypt" Version="1.0.0" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.0" />
     <PackageReference Include="BouncyCastle" Version="1.8.6.1" />
