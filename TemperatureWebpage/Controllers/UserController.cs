@@ -25,7 +25,7 @@ namespace TemperatureWebpage.Controllers
         [HttpGet("Register/{id}"), AllowAnonymous]
         public ActionResult<DTOUser> Get(string userId)
         {
-            var user = new DTOUser() { Id = userId };
+            var user = new DTOUser() { UserId = userId };
             return user;
         }
 
