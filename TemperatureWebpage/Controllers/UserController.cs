@@ -21,14 +21,11 @@ namespace TemperatureWebpage.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        //private readonly UserManager<IdentityUser> _userManager;
-        //private readonly SignInManager<IdentityUser> _signInManager;
+
         private readonly ApplicationDbContext _context;
         int BCryptWorkFactor = 11;
-        public UserController(ApplicationDbContext context/*UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager*/) 
+        public UserController(ApplicationDbContext context) 
         {
-            //_userManager = userManager;
-            //_signInManager = signInManager;
             _context = context;
         }
 
@@ -81,36 +78,13 @@ namespace TemperatureWebpage.Controllers
         //    return user;
         //}
 
-        //Nedenstående kode er taget fra slides "12 Secure Web API"
-        //[HttpPost("Register"), AllowAnonymous]
-        //public async Task<IActionResult> Register([FromBody] DTOUser dtoUser)
-        //{
-        //    var newUser = new ApplicationUser
-        //    {
-        //        UserName = dtoUser.Email,
-        //        Email = dtoUser.Email.ToLower(),
-        //        Name = dtoUser.Name
-        //    };
-
-        //    var userCreationResult = await _userManager.CreateAsync(newUser, password);
-
-        //    if (userCreationResult.Succeeded)
-        //    {
-        //        return Ok(newUser);
-        //    }
-        //    foreach (var error in userCreationResult.Errors)
-        //    {
-        //        ModelState.AddModelError(string.Empty, error.Description);
-
-        //    }
-        //    return BadRequest(ModelState);
-        //}
         //Generate Token hjælpefunktion
         private string GenerateToken(string username)
         {
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Role, "Client"),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };
@@ -121,18 +95,6 @@ namespace TemperatureWebpage.Controllers
                     new JwtPayload(claims));
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        //[HttpPost("Login")]
-        //public async Task<IActionResult> Login([FromBody] DTOUser dtoUser)
-        //{
-        //    var passwordSignInResult = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
-        //    if (passwordSignInResult.Succeeded)
-        //    {
-        //        return Ok();
-        //    }
-        //    ModelState.AddModelError(string.Empty, "Invalid login");
-        //    return BadRequest(ModelState);
-        //}
 
         //[HttpPost("Logout")]
         //public async Task<IActionResult> Logout()
