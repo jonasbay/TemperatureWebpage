@@ -1,11 +1,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NSubstitute;
 using TemperatureWebpage.Controllers;
 using TemperatureWebpage.Data;
+using TemperatureWebpage.Hubs;
 using TemperatureWebpage.Models;
 using TemperatureWebpage.Utilities;
 using Xunit;
@@ -17,9 +20,11 @@ namespace TemperatureWebpage.Test
         private DbContextOptions<ApplicationDbContext> _options;
         private SqliteConnection _connection;
         private WeatherObservationController _uut;
+        private IHubContext<ObservationsHub> _hub;
 
         public TemperatureWebpageUnitTests()
         {
+            _hub = Substitute.For<IHubContext<ObservationsHub>>();
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
             _options = new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(_connection).Options;
@@ -42,7 +47,7 @@ namespace TemperatureWebpage.Test
             {
                 context.Database.EnsureCreated();
 
-                _uut = new WeatherObservationController(context);
+                _uut = new WeatherObservationController(context, _hub);
 
                 var result = _uut.GetThree();
 
@@ -57,7 +62,7 @@ namespace TemperatureWebpage.Test
             {
                 context.Database.EnsureCreated();
 
-                _uut = new WeatherObservationController(context);
+                _uut = new WeatherObservationController(context, _hub);
 
                 DTOWeatherObservation entry = new DTOWeatherObservation()
                 {
@@ -73,23 +78,21 @@ namespace TemperatureWebpage.Test
                 var result = _uut.DateGet("06-05-2020");
 
                 Assert.Equal("USA", result.Value.FirstOrDefault().LocationName);
-
-                //Assert.Equal("2020-05-06 12:00:00", result.Value.FirstOrDefault().TimeOfDay.Date.ToString());
             }
         }
 
-        //[Fact]
-        //public async Task GetWeatherBetweenDate()
-        //{
-        //    using (var context = new ApplicationDbContext(_options))
-        //    {
-        //        context.Database.EnsureCreated();
-        //        _uut = new WeatherObservationController(context);
+        [Fact]
+        public async Task GetWeatherBetweenDate()
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                context.Database.EnsureCreated();
+                _uut = new WeatherObservationController(context, _hub);
 
-        //        var result = _uut.BetweenDateGet("04-05-2020","11-06-2020");
-        //        Assert.Equal("USA", result.Value.FirstOrDefault().LocationName);
-        //    }
-        //}
+                var result = _uut.BetweenDateGet("04-05-2020", "11-06-2020");
+                Assert.Equal("USA", result.Value.FirstOrDefault().LocationName);
+            }
+        }
 
         [Fact]
         public async Task UploadWeatherObservation()
@@ -98,7 +101,7 @@ namespace TemperatureWebpage.Test
             {
                 context.Database.EnsureCreated();
                 int initial = context.WeatherObservations.ToList().Count;
-                _uut = new WeatherObservationController(context);
+                _uut = new WeatherObservationController(context, _hub);
                 DTOWeatherObservation entry = new DTOWeatherObservation()
                 {
                     TimeOfDay = DateTime.Now,

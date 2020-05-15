@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using TemperatureWebpage.Data;
+using TemperatureWebpage.Hubs;
 using TemperatureWebpage.Utilities;
 
 namespace TemperatureWebpage
@@ -34,6 +35,8 @@ namespace TemperatureWebpage
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSignalR();
 
             services.AddControllers();
             services.AddControllers().AddNewtonsoftJson(options =>
@@ -77,12 +80,14 @@ namespace TemperatureWebpage
 
             app.UseRouting();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ObservationsHub>("/observations");
             });
 
         }

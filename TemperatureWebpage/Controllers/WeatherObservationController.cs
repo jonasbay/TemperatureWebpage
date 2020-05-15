@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TemperatureWebpage.Data;
+using TemperatureWebpage.Hubs;
 using TemperatureWebpage.Models;
 using TemperatureWebpage.Utilities;
 
@@ -20,10 +22,12 @@ namespace TemperatureWebpage.Controllers
     public class WeatherObservationController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHubContext<ObservationsHub> _hub;
 
-        public WeatherObservationController(ApplicationDbContext context)
+        public WeatherObservationController(ApplicationDbContext context, IHubContext<ObservationsHub> hub)
         {
             _context = context;
+            _hub = hub;
         }
 
         // GET: api/weatherobservation
@@ -74,7 +78,7 @@ namespace TemperatureWebpage.Controllers
                         AirHumidity = foundDate.AirHumidity,
                         TimeOfDay = foundDate.TimeOfDay,
                         WeatherObservationId = foundDate.WeatherObservationId,
-                        LocationName = foundDate.Location.LocationName
+                        LocationName = foundDate.LocationName
                     };
                     newList.Add(WO);
                 }
@@ -107,7 +111,7 @@ namespace TemperatureWebpage.Controllers
                         AirHumidity = wo.AirHumidity,
                         TimeOfDay = wo.TimeOfDay,
                         WeatherObservationId = wo.WeatherObservationId,
-                        LocationName = wo.Location.LocationName
+                        LocationName = wo.LocationName
                     };
                     newList.Add(WeatherObs);
                 }
