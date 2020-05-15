@@ -139,6 +139,14 @@ namespace TemperatureWebpage.Controllers
             _context.WeatherObservations.Add(weather);
             await _context.SaveChangesAsync();
 
+            string weatherObservationFormatted = "Weatherobservation\n" +
+                                                 $"Time: {DtoweatherObs.TimeOfDay.ToLongTimeString()}\n" +
+                                                 $"Location: {DtoweatherObs.LocationName}\n" +
+                                                 $"Temperature: {DtoweatherObs.Temperature}\n" +
+                                                 $"Humidity: {DtoweatherObs.AirHumidity}\n" +
+                                                 $"Pressure: {DtoweatherObs.AirPressure}";
+            await _hub.Clients.All.SendAsync("NewPost", weatherObservationFormatted);
+
             return Created(weather.WeatherObservationId.ToString(), weather);
         }
 
