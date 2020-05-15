@@ -17,6 +17,7 @@ namespace TemperatureWebpage.Data
 
         public DbSet<WeatherObservation> WeatherObservations { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<DTOUser> DTOUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,6 +35,11 @@ namespace TemperatureWebpage.Data
                 new WeatherObservation { WeatherObservationId = 2, TimeOfDay = new DateTime(2019, 04, 06, 15, 15, 00), Temperature = 40, AirPressure = 40, AirHumidity = 40, LocationRefId = 1 },
                 new WeatherObservation { WeatherObservationId = 3, TimeOfDay = new DateTime(2020, 04, 20, 09, 00, 00), Temperature = 23, AirPressure = 30, AirHumidity = 30, LocationRefId = 1 },
                 new WeatherObservation { WeatherObservationId = 4, TimeOfDay = new DateTime(2020, 05, 10, 20, 30, 00), Temperature = 55, AirPressure = 12, AirHumidity = 1000, LocationRefId = 1 });
+
+            modelBuilder.Entity<DTOUser>()
+                .HasData(new DTOUser { Id = 1, Name = "Default", PasswordHash = BCrypt.Net.BCrypt.HashPassword("hej123"), Email = "default@gamil.com" },
+                new DTOUser { Id = 2, Name = "Alex", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1234"), Email = "alex@gamil.com" });
+
         }
     }
 }

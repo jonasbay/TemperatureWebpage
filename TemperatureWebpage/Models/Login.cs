@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace TemperatureWebpage.Models
 {
-    public class DTOUser
+    public class Login
     {
-        [Key]
-        public int Id { get; set; }
-        [MaxLength(254)]
+        [Required, MaxLength(254)]
         public string Email { get; set; }
-        [MaxLength(64)]
-        public string Name { get; set; }
-        [MaxLength(60)]
-        public string PasswordHash { get; set; }
+        [Required, MaxLength(56)]
+        public string Password { get; set; }
     }
 }

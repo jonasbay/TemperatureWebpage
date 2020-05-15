@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using TemperatureWebpage.Data;
 using TemperatureWebpage.Models;
+using TemperatureWebpage.Utilities;
 
 namespace TemperatureWebpage.Controllers
 {
@@ -15,10 +18,12 @@ namespace TemperatureWebpage.Controllers
     public class WeatherObservationController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly AppSettings _appSettings;
 
-        public WeatherObservationController(ApplicationDbContext context)
+        public WeatherObservationController(ApplicationDbContext context, IOptions<AppSettings> appSettings)
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
 
         // GET: api/weatherobservation
@@ -114,5 +119,25 @@ namespace TemperatureWebpage.Controllers
             }
             return newList;
         }
+
+        [Authorize(Roles = "Client")]
+        [HttpPost("UploadWeatherObservation")]
+        public async Task<ActionResult<WeatherObservation>> UploadWeatherObservation(DTOWeatherObservation DtoweatherObs)
+        {
+            var weather = new WeatherObservation()
+            {
+                TimeOfDay = DtoweatherObs.TimeOfDay,
+                Temperature = DtoweatherObs.Temperature,
+                AirPressure = DtoweatherObs.AirPressure,
+                AirHumidity = DtoweatherObs.AirHumidity,
+                LocationName = DtoweatherObs.LocationName,
+                LocationRefId = DtoweatherObs.LocationRefId
+            };
+            _context.WeatherObservations.Add(weather);
+            await _context.SaveChangesAsync();
+
+            return Created(weather.WeatherObservationId.ToString(), weather);
+        }
+
     }
 }
