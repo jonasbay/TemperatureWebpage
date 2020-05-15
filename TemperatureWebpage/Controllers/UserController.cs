@@ -31,48 +31,48 @@ namespace TemperatureWebpage.Controllers
 
         //Nedenstående kode er taget fra slides "12 Secure Web API"
 
-        [HttpPost("Register"), AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] DTOUser dtoUser)
-        {
-            var newUser = new ApplicationUser
-            {
-                UserName = dtoUser.Email,
-                Email = dtoUser.Email,
-                Name = dtoUser.Name
-            };
+        //[HttpPost("Register"), AllowAnonymous]
+        //public async Task<IActionResult> Register([FromBody] DTOUser dtoUser)
+        //{
+        //    var newUser = new ApplicationUser
+        //    {
+        //        UserName = dtoUser.Email,
+        //        Email = dtoUser.Email,
+        //        Name = dtoUser.Name
+        //    };
 
-            var userCreationResult = await _userManager.CreateAsync(newUser, password);
+        //    var userCreationResult = await _userManager.CreateAsync(newUser, password);
 
-            if (userCreationResult.Succeeded)
-            {
-                return Ok(newUser);
-            }
-            foreach (var error in userCreationResult.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
+        //    if (userCreationResult.Succeeded)
+        //    {
+        //        return Ok(newUser);
+        //    }
+        //    foreach (var error in userCreationResult.Errors)
+        //    {
+        //        ModelState.AddModelError(string.Empty, error.Description);
 
-            }
-            return BadRequest(ModelState);
-        }
+        //    }
+        //    return BadRequest(ModelState);
+        //}
 
-        [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody] DTOUser dtoUser)
-        {
-            var passwordSignInResult = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
-            if (passwordSignInResult.Succeeded)
-            {
-                return Ok();
-            }
-            ModelState.AddModelError(string.Empty, "Invalid login");
-            return BadRequest(ModelState);
-        }
+        //[HttpPost("Login")]
+        //public async Task<IActionResult> Login([FromBody] DTOUser dtoUser)
+        //{
+        //    var passwordSignInResult = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
+        //    if (passwordSignInResult.Succeeded)
+        //    {
+        //        return Ok();
+        //    }
+        //    ModelState.AddModelError(string.Empty, "Invalid login");
+        //    return BadRequest(ModelState);
+        //}
 
-        [HttpPost("Logout")]
-        public async Task<IActionResult> Logout()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok();
-        }
+        //[HttpPost("Logout")]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync();
+        //    return Ok();
+        //}
 
     }
 }

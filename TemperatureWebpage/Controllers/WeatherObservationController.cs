@@ -45,7 +45,7 @@ namespace TemperatureWebpage.Controllers
             return WeatherObs.OrderByDescending(wo => wo.TimeOfDay).Take(3);
         }
 
-        //Løsningsforslag fra Daniella til Datosortering
+
         //public IEnumerable<WeatherObservation> GetWOOnDate()
         //{
         //    return _service.Get()
@@ -114,8 +114,5 @@ namespace TemperatureWebpage.Controllers
             }
             return newList;
         }
-
-
-
     }
 }
