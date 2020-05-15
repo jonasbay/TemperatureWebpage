@@ -17,7 +17,6 @@ namespace TemperatureWebpage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Client")]
     //[Authorize]
     public class WeatherObservationController : Controller
     {
@@ -69,7 +68,7 @@ namespace TemperatureWebpage.Controllers
 
             foreach (var foundDate in _context.WeatherObservations)
             {
-                if (foundDate.TimeOfDay.Date.ToString() == date + " 00:00:00")
+                if (foundDate.TimeOfDay.Date == DateTime.Parse(date))
                 {
                     var WO = new WeatherObservation()
                     {
@@ -100,8 +99,6 @@ namespace TemperatureWebpage.Controllers
             {
                 var dateFound = wo.TimeOfDay.Date;
 
-                //if ((string.Compare(dateFound, date1 + " 00:00:00") >= 0 ) 
-                //    && (string.Compare(dateFound, date2 + " 00:00:00") <= 0))
                 if ((DateTime.Compare(dateFound, DateTime.Parse(date1)) >= 0) && (DateTime.Compare(dateFound, DateTime.Parse(date2)) <= 0))
                 {
                     var WeatherObs = new WeatherObservation
@@ -125,6 +122,7 @@ namespace TemperatureWebpage.Controllers
         }
 
         [HttpPost("UploadWeatherObservation")]
+        [Authorize(Roles = "Client")]
         public async Task<ActionResult<WeatherObservation>> UploadWeatherObservation(DTOWeatherObservation DtoweatherObs)
         {
             var weather = new WeatherObservation()
