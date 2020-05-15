@@ -20,12 +20,10 @@ namespace TemperatureWebpage.Controllers
     public class WeatherObservationController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly AppSettings _appSettings;
 
-        public WeatherObservationController(ApplicationDbContext context, IOptions<AppSettings> appSettings)
+        public WeatherObservationController(ApplicationDbContext context)
         {
             _context = context;
-            _appSettings = appSettings.Value;
         }
 
         // GET: api/weatherobservation
@@ -69,7 +67,7 @@ namespace TemperatureWebpage.Controllers
             {
                 if (foundDate.TimeOfDay.Date.ToString() == date + " 00:00:00")
                 {
-                    var WO = new WeatherObservation
+                    var WO = new WeatherObservation()
                     {
                         Temperature = foundDate.Temperature,
                         AirPressure = foundDate.AirPressure,
