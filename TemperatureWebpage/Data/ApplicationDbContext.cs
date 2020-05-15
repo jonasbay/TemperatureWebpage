@@ -18,6 +18,7 @@ namespace TemperatureWebpage.Data
         public DbSet<WeatherObservation> WeatherObservations { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<DTOUser> DTOUsers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

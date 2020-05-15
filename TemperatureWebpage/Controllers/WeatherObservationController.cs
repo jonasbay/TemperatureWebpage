@@ -15,6 +15,8 @@ namespace TemperatureWebpage.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Client")]
+    //[Authorize]
     public class WeatherObservationController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -120,7 +122,6 @@ namespace TemperatureWebpage.Controllers
             return newList;
         }
 
-        [Authorize(Roles = "Client")]
         [HttpPost("UploadWeatherObservation")]
         public async Task<ActionResult<WeatherObservation>> UploadWeatherObservation(DTOWeatherObservation DtoweatherObs)
         {

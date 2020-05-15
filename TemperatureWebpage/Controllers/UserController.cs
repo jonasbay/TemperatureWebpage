@@ -10,10 +10,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Org.BouncyCastle.Crypto.Generators;
 using TemperatureWebpage.Data;
 using TemperatureWebpage.Models;
+using TemperatureWebpage.Utilities;
 
 namespace TemperatureWebpage.Controllers
 {
@@ -24,9 +26,12 @@ namespace TemperatureWebpage.Controllers
 
         private readonly ApplicationDbContext _context;
         int BCryptWorkFactor = 11;
-        public UserController(ApplicationDbContext context) 
+        private readonly AppSettings _appSettings;
+
+        public UserController(ApplicationDbContext context, IOptions<AppSettings> appSettings) 
         {
             _context = context;
+            _appSettings = appSettings.Value;
         }
 
         [HttpGet("GetUser")]
@@ -43,7 +48,7 @@ namespace TemperatureWebpage.Controllers
             {
                 Email = appUser.Email.ToLower(),
                 Name = appUser.Name,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(appUser.Password, BCryptWorkFactor)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(appUser.Password, _appSettings.BcryptWorkfactor)
             };
             _context.DTOUsers.Add(user);
             await _context.SaveChangesAsync();
@@ -88,11 +93,14 @@ namespace TemperatureWebpage.Controllers
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString()),
             };
+
+            var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes("the secret that needs to be at least 16 characeters long for HmacSha256")),
+                    new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256)),
                     new JwtPayload(claims));
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
